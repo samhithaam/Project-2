@@ -1,0 +1,304 @@
+/**
+ * Project 2 - Lab Manager
+ * <p>
+ *
+ * @author Samhitha Mupharaphu Purdue CS
+ * @version October 17, 2021
+ */
+
+public class LabManager {
+    /**
+     * The first lab of this LabManager.
+     */
+    private Lab labOne;
+    /**
+     * The second lab of this LabManager.
+     */
+    private Lab labTwo;
+    /**
+     * The third lab of this LabManager.
+     */
+    private Lab labThree;
+
+    public LabManager(Lab labOne, Lab labTwo, Lab labThree) {
+        this.labOne = labOne;
+        this.labTwo = labTwo;
+        this.labThree = labThree;
+    }
+
+    public Lab getLabOne() {
+        return labOne;
+    }
+
+    public Lab getLabTwo() {
+        return labTwo;
+    }
+
+    public Lab getLabThree() {
+        return labThree;
+    }
+
+    public void setLabOne(Lab labOne) {
+        this.labOne = labOne;
+    }
+
+    public void setLabTwo(Lab labTwo) {
+        this.labTwo = labTwo;
+    }
+
+    public void setLabThree(Lab labThree) {
+        this.labThree = labThree;
+    }
+
+    public int calculateTotalCapacity() {
+        int totalCapacity = (labOne.getCapacity() * 2) + (labTwo.getCapacity() * 2) + (labThree.getCapacity() * 2);
+        return totalCapacity;
+    }
+
+    public double calculateTotalUtilization() {
+
+        double lab1 = labOne.getMorning().getEnrollment() + labOne.getAfternoon().getEnrollment();
+        double lab2 = labTwo.getMorning().getEnrollment() + labTwo.getAfternoon().getEnrollment();
+        double lab3 = labThree.getAfternoon().getEnrollment() + labThree.getMorning().getEnrollment();
+        double avgUtilization = (double) (lab1 + lab2 + lab3) / calculateTotalCapacity();
+        return avgUtilization;
+    }
+
+    public int calculateAvailableSeats() {
+        int availableSeats = (labOne.getCapacity() - labOne.getMorning().getEnrollment()) +
+                (labOne.getCapacity() - labOne.getAfternoon().getEnrollment()) +
+                (labTwo.getCapacity() - labTwo.getMorning().getEnrollment()) +
+                (labTwo.getCapacity() - labTwo.getAfternoon().getEnrollment()) +
+                (labThree.getCapacity() - labThree.getMorning().getEnrollment()) +
+                (labThree.getCapacity() - labThree.getAfternoon().getEnrollment());
+        return availableSeats;
+    }
+
+    public String listReservedLabs() {
+        StringBuilder reservation = new StringBuilder();
+
+        reservation.append("Lab One \n");
+
+        if ((labOne.getMorning() != null && labOne.getMorning().getEnrollment() == 0)
+                && ((labOne.getAfternoon() != null && labOne.getAfternoon().getEnrollment() == 0))) {
+            reservation.append("No Reservations\n");
+        } else {
+            if (labOne.getMorning() != null) {
+                if (labOne.getMorning().getEnrollment() > 0) {
+                    reservation.append("Morning: Reserved\n");
+                }
+            }
+            if (labOne.getAfternoon() != null) {
+                if (labOne.getAfternoon().getEnrollment() > 0) {
+                    reservation.append("Afternoon: Reserved\n");
+                }
+            }
+        }
+
+        reservation.append("Lab Two \n");
+
+        if ((labTwo.getMorning() != null && labTwo.getMorning().getEnrollment() == 0)
+                && ((labTwo.getAfternoon() != null && labTwo.getAfternoon().getEnrollment() == 0))) {
+            reservation.append("No Reservations\n");
+        } else {
+            if (labTwo.getMorning() != null) {
+                if (labTwo.getMorning().getEnrollment() > 0) {
+                    reservation.append("Morning: Reserved\n");
+                }
+            }
+            if (labTwo.getAfternoon() != null) {
+                if (labTwo.getAfternoon().getEnrollment() > 0) {
+                    reservation.append("Afternoon: Reserved\n");
+                }
+            }
+        }
+
+        reservation.append("Lab Three \n");
+
+        if ((labThree.getMorning() != null && labThree.getMorning().getEnrollment() == 0)
+                && ((labTwo.getAfternoon() != null && labThree.getAfternoon().getEnrollment() == 0))) {
+            reservation.append("No Reservations\n");
+        } else {
+            if (labThree.getMorning() != null) {
+                if (labThree.getMorning().getEnrollment() > 0) {
+                    reservation.append("Morning: Reserved\n");
+                }
+            }
+            if (labThree.getAfternoon() != null) {
+                if (labThree.getAfternoon().getEnrollment() > 0) {
+                    reservation.append("Afternoon: Reserved\n");
+                }
+            }
+        }
+
+        return (reservation.toString());
+    }
+
+    public String listAvailableLabs() {
+        StringBuilder available = new StringBuilder();
+
+        available.append("Lab One \n");
+
+        if ((labOne.getMorning() != null && labOne.getMorning().getEnrollment() != 0)
+                && ((labOne.getAfternoon() != null && labOne.getAfternoon().getEnrollment() != 0))) {
+            available.append("No Availabilities\n");
+        } else {
+            if (labOne.getMorning() != null) {
+                if (labOne.getMorning().getEnrollment() == 0) {
+                    available.append("Morning: Available\n");
+                }
+            }
+            if (labOne.getAfternoon() != null) {
+                if (labOne.getAfternoon().getEnrollment() == 0) {
+                    available.append("Afternoon: Available\n");
+                }
+            }
+        }
+
+        available.append("Lab Two \n");
+
+        if ((labTwo.getMorning() != null && labTwo.getMorning().getEnrollment() != 0)
+                && ((labTwo.getAfternoon() != null && labTwo.getAfternoon().getEnrollment() != 0))) {
+            available.append("No Availabilities\n");
+        } else {
+            if (labTwo.getMorning() != null) {
+                if (labTwo.getMorning().getEnrollment() == 0) {
+                    available.append("Morning: Available\n");
+                }
+            }
+            if (labTwo.getAfternoon() != null) {
+                if (labTwo.getAfternoon().getEnrollment() == 0) {
+                    available.append("Afternoon: Available\n");
+                }
+            }
+        }
+
+        available.append("Lab Three \n");
+
+        if ((labThree.getMorning() != null && labThree.getMorning().getEnrollment() != 0)
+                && ((labThree.getAfternoon() != null && labThree.getAfternoon().getEnrollment() != 0))) {
+            available.append("No Availabilities\n");
+        } else {
+            if (labThree.getMorning() != null) {
+                if (labThree.getMorning().getEnrollment() == 0) {
+                    available.append("Morning: Available\n");
+                }
+            }
+            if (labThree.getAfternoon() != null) {
+                if (labThree.getAfternoon().getEnrollment() == 0) {
+                    available.append("Afternoon: Available\n");
+                }
+            }
+        }
+
+        return (available.toString());
+    }
+
+    private Lab getLabFromLocation(String location) {
+        Lab lab;
+
+        if (location.equals(labOne.getLocation())) {
+            lab = labOne;
+        } else if (location.equals(labTwo.getLocation())) {
+            lab = labTwo;
+        } else if (location.equals(labThree.getLocation())) {
+            lab = labThree;
+        } else {
+            lab = null;
+        }
+        return lab;
+    }
+
+    public String addReservation(String location, String time, String name, int enrollment) {
+        Lab lab = getLabFromLocation(location);
+        if (lab == null) {
+            return "Error. Invalid location";
+        }
+
+        if (enrollment > lab.getCapacity()) {
+            return "Error. Capacity exceeded";
+        }
+
+        if (time.equals("morning")) {
+            if (lab.getMorning().getEnrollment() != 0) {
+                return "Error. Invalid time.";
+            } else {
+                lab.setMorning(new Session(name, enrollment));
+                return "Reservation added!";
+            }
+        } else if (time.equals("afternoon")) {
+            if (lab.getAfternoon().getEnrollment() != 0) {
+                return "Error. Invalid time.";
+            } else {
+                lab.setAfternoon(new Session(name, enrollment));
+                return "Reservation added!";
+            }
+        } else {
+            return "Error. Invalid time.";
+        }
+
+    }
+
+    public String removeReservation(String location, String time) {
+        Lab lab = getLabFromLocation(location);
+        if (lab == null) {
+            return "Error. Invalid location";
+        }
+
+        if (time.equals("morning")) {
+            if (lab.getMorning().getEnrollment() == 0) {
+                return "Error. Invalid time.";
+            } else {
+                lab.setMorning(new Session("", 0));
+                return "Reservation removed!";
+            }
+        } else if (time.equals("afternoon")) {
+            if (lab.getAfternoon().getEnrollment() == 0) {
+                return "Error. Invalid time.";
+            } else {
+                lab.setAfternoon(new Session("", 0));
+                return "Reservation removed!";
+            }
+        } else {
+            return "Error. Invalid time.";
+        }
+    }
+
+    public String modifyReservation(String location, String time, String name, int enrollment) {
+        Lab lab = getLabFromLocation(location);
+        if (lab == null) {
+            return "Error. Invalid location";
+        }
+
+        if (enrollment > lab.getCapacity()) {
+            return "Error. Capacity exceeded";
+        }
+
+        if (time.equals("morning")) {
+            if (lab.getMorning().getEnrollment() == 0) {
+                return "Error. Invalid time.";
+            } else {
+                lab.setMorning(new Session(name, enrollment));
+                return "Reservation updated!";
+            }
+        } else if (time.equals("afternoon")) {
+            if (lab.getAfternoon().getEnrollment() == 0) {
+                return "Error. Invalid time.";
+            } else {
+                lab.setAfternoon(new Session(name, enrollment));
+                return "Reservation updated!";
+            }
+        } else {
+            return "Error. Invalid time.";
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("LabManager{").append(labOne.toString()).append(",")
+                .append(labTwo.toString()).append(",")
+                .append(labThree.toString());
+        return (sb.toString());
+    }
+}

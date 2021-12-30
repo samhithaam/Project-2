@@ -1,0 +1,121 @@
+/**
+ * Project 2 - Lab
+ * <p>
+ *
+ * @author Samhitha Mupharaphu Purdue CS
+ * @version October 17, 2021
+ */
+
+
+public class Lab {
+    /**
+     * The morning session associated with this lab.
+     */
+    private Session morning;
+    /**
+     * The afternoon session associated with this lab.
+     */
+    private Session afternoon;
+    /**
+     * The room capacity of this lab.
+     */
+    private int capacity;
+    /**
+     * The location of this lab.
+     */
+    private String location;
+
+    public Lab(Session morning, Session afternoon, int capacity, String location) {
+        this.morning = morning;
+        this.afternoon = afternoon;
+        this.capacity = capacity;
+        this.location = location;
+    }
+
+    public Lab(int capacity, String location) {
+        this.capacity = capacity;
+        this.location = location;
+        this.morning = new Session();
+        this.afternoon = new Session();
+    }
+
+    public Session getMorning() {
+        return morning;
+    }
+
+    public Session getAfternoon() {
+        return afternoon;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setMorning(Session morning) {
+        this.morning = morning;
+    }
+
+    public void setAfternoon(Session afternoon) {
+        this.afternoon = afternoon;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String listAvailabilities() {
+        StringBuilder available = new StringBuilder();
+        if (morning.getEnrollment() == 0) {
+            available.append("Morning: Available\n");
+        }
+        if (afternoon.getEnrollment() == 0) {
+            available.append("Afternoon: Available\n");
+        }
+        if (morning.getEnrollment() > 0 && afternoon.getEnrollment() > 0) {
+            available.append("No Availabilities\n");
+        }
+        return (available.toString());
+    }
+
+    public String listReservations() {
+        StringBuilder reserved = new StringBuilder();
+        if (morning.getEnrollment() > 0) {
+            reserved.append("Morning: Reserved\n");
+        }
+        if (afternoon.getEnrollment() > 0) {
+            reserved.append("Afternoon: Reserved\n");
+        }
+        if (morning.getEnrollment() == 0 && afternoon.getEnrollment() == 0) {
+            reserved.append("No Reservations\n");
+        }
+        return (reserved.toString());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Lab{Capacity - ").append(capacity).append(", Location - ").append(location).append(", Morning: ");
+        if (morning.getEnrollment() != 0) {
+            sb.append(morning.toString());
+        } else {
+            sb.append("Available");
+        }
+        sb.append(",Afternoon: ");
+        if (afternoon.getEnrollment() != 0) {
+            sb.append(afternoon.toString());
+        } else {
+            sb.append("Available");
+        }
+        sb.append("}");
+
+        return (sb.toString());
+    }
+}

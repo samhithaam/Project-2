@@ -1,0 +1,198 @@
+import java.util.Scanner;
+
+/**
+ * Project 2 - TimeKeeper
+ * TimeKeeper Class that initializes and controls Lab Scheduling.
+ * <p>
+ *
+ * @author Samhitha Mupharaphu Purdue CS
+ * @version October 17, 2021
+ */
+public class TimeKeeper {
+
+    private static LabManager labManager;
+    private static String welcomePrompt = "Welcome to the TimeKeeper application!";
+    private static String invalidInput = "Invalid input. Please try again.";
+    private static String enterLabCapacity = "Enter the capacity for Lab ";
+    private static String enterLabLocation = "Enter the location for Lab ";
+    private static String labLocationPrompt = "Enter the location of the lab:";
+    private static String reservationTimePrompt = "Enter the time of the reservation:";
+    private static String reservationNamePrompt = "Enter the name of the reservation:";
+    private static String reservationEnrollmentPrompt = "Enter the expected enrollment:";
+    private static String reservationNameUpdate = "Enter the updated name of the reservation:";
+    private static String reservationEnrollmentUpdate = "Enter the updated enrollment:";
+    private static String totalCapacity = "Total Capacity: ";
+    private static String totalUtilization = "Total Utilization: ";
+    private static String availableSeats = "Available seats: ";
+
+
+    private static String initializeMenu = "1. Initialize Application\n" +
+            "2. Exit";
+    private static String ongoingMenu = "1. View Current Lab Schedule\n" +
+            "2. List Labs by Availability\n" +
+            "3. List Labs by Reservation\n" +
+            "4. Add a Reservation\n" +
+            "5. Remove a Reservation\n" +
+            "6. Modify a Reservation\n" +
+            "7. Calculate Statistics\n" +
+            "8. Exit";
+    private static String statisticsMenu = "1. Total Capacity\n" +
+            "2. Total Utilization\n" +
+            "3. Available seats\n" +
+            "4. Return to main menu";
+    private static String exitMessage = "Thank you for using TimeKeeper!";
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println(welcomePrompt);
+
+        boolean isNotAValidMenuOption = true;
+
+        while (isNotAValidMenuOption) {
+            System.out.println(initializeMenu);
+            int choice = scan.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println(enterLabCapacity + "1:");
+                    int capacityOne = scan.nextInt();
+                    scan.nextLine();
+                    System.out.println(enterLabLocation + "1:");
+                    String locationOne = scan.nextLine();
+
+                    System.out.println(enterLabCapacity + "2:");
+                    int capacityTwo = scan.nextInt();
+                    scan.nextLine();
+                    System.out.println(enterLabLocation + "2:");
+                    String locationTwo = scan.nextLine();
+
+                    System.out.println(enterLabCapacity + "3:");
+                    int capacityThree = scan.nextInt();
+                    scan.nextLine();
+                    System.out.println(enterLabLocation + "3:");
+                    String locationThree = scan.nextLine();
+
+                    Lab labOne = new Lab(capacityOne, locationOne);
+                    Lab labTwo = new Lab(capacityTwo, locationTwo);
+                    Lab labThree = new Lab(capacityThree, locationThree);
+
+                    labManager = new LabManager(labOne, labTwo, labThree);
+
+                    isNotAValidMenuOption = false;
+                    break;
+
+                case 2:
+                    System.out.println(exitMessage);
+                    isNotAValidMenuOption = false;
+                    break;
+
+                default:
+                    System.out.println(invalidInput);
+                    break;
+            }
+        }
+        boolean ongoingMenuLoop = true;
+
+        while (ongoingMenuLoop) {
+            System.out.println(ongoingMenu);
+            int ongoingMenuChoice = scan.nextInt();
+            switch (ongoingMenuChoice) {
+                case 1:
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(labManager.getLabOne().toString()).append("\n")
+                            .append(labManager.getLabTwo().toString()).append("\n")
+                            .append(labManager.getLabThree().toString());
+                    System.out.println(sb);
+                    break;
+
+                case 2:
+                    System.out.println(labManager.listAvailableLabs());
+                    break;
+                case 3:
+                    System.out.println(labManager.listReservedLabs());
+                    break;
+                case 4:
+                    System.out.println(labLocationPrompt);
+                    scan.nextLine();
+                    String addLocation = scan.nextLine();
+
+                    System.out.println(reservationTimePrompt);
+                    String addTime = scan.nextLine();
+
+                    System.out.println(reservationNamePrompt);
+                    String addName = scan.nextLine();
+
+                    System.out.println(reservationEnrollmentPrompt);
+                    int expectedEnrollment = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println(labManager.addReservation(addLocation, addTime, addName, expectedEnrollment));
+
+                    break;
+                case 5:
+                    System.out.println(labLocationPrompt);
+                    scan.nextLine();
+                    String removeLocation = scan.nextLine();
+
+                    System.out.println(reservationTimePrompt);
+                    String removeTime = scan.nextLine();
+
+                    System.out.println(labManager.removeReservation(removeLocation, removeTime));
+
+                    break;
+                case 6:
+                    System.out.println(labLocationPrompt);
+                    scan.nextLine();
+                    String location = scan.nextLine();
+
+                    System.out.println(reservationTimePrompt);
+                    String time = scan.nextLine();
+
+                    System.out.println(reservationNameUpdate);
+                    String updateLocation = scan.nextLine();
+
+                    System.out.println(reservationEnrollmentUpdate);
+                    int updateTime = scan.nextInt();
+                    scan.nextLine();
+
+                    System.out.println(labManager.modifyReservation(location, time, updateLocation, updateTime));
+
+                    break;
+                case 7:
+                    boolean statisticsMenuFlag = true;
+
+                    while (statisticsMenuFlag) {
+                        System.out.println(statisticsMenu);
+                        int statisticMenuChoice = scan.nextInt();
+                        switch (statisticMenuChoice) {
+                            case 1:
+                                System.out.print(totalCapacity);
+                                System.out.println(labManager.calculateTotalCapacity());
+                                break;
+                            case 2:
+                                System.out.print(totalUtilization);
+                                System.out.println(String.format("%.2f", labManager.calculateTotalUtilization()));
+                                break;
+                            case 3:
+                                System.out.print(availableSeats);
+                                System.out.println(labManager.calculateAvailableSeats());
+                                break;
+                            case 4:
+                                statisticsMenuFlag = false;
+                                break;
+                            default:
+                                System.out.println(invalidInput);
+                                break;
+                        }
+                    }
+                    break;
+                case 8:
+                    System.out.println(exitMessage);
+                    ongoingMenuLoop = false;
+                    break;
+                default:
+                    System.out.println(invalidInput);
+                    break;
+            }
+        }
+    }
+}
